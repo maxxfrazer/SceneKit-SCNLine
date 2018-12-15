@@ -13,6 +13,13 @@ private extension simd_quatf {
 		let vec = self.act(float3([vector.x, vector.y, vector.z]))
 		return SCNVector3(vec.x, vec.y, vec.z)
 	}
+	func split(by factor: Float = 2) -> simd_quatf {
+		if self.angle == 0 {
+			return self
+		} else {
+			return simd_quatf(angle: self.angle / factor, axis: self.axis)
+		}
+	}
 }
 private func rotationBetween2Vectors(start: SCNVector3, end: SCNVector3) -> simd_quatf {
 	return simd_quaternion(simd_float3([start.x, start.y, start.z]), simd_float3([end.x, end.y, end.z]))
@@ -21,7 +28,7 @@ public extension SCNGeometry {
 	//	public static func getCircularPoints(radius: Float, orientation: )
 	private static func getCircularPoints(
 		radius: Float,
-		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([0,0,0])),
+		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1,0,0])),
 		smoothness: Int
 		) -> [SCNVector3] {
 		var angle: Float = 0
@@ -97,14 +104,14 @@ public extension SCNGeometry {
 
 				newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - points[index]).normalized())
 			} else {
-				newRotation = simd_quatf(angle: 0, axis: float3([0,0,0]))
+				newRotation = simd_quatf(angle: 0, axis: float3([1,0,0]))
 			}
 
 			if index > 0 {
-				let halfRotation: simd_quatf = simd_quatf(angle: newRotation.angle / 2, axis: newRotation.axis)
+				let halfRotation = newRotation.split(by: 2)
 				if newRotation.angle > .pi / 4 && point.distance(vector: points[index - 1]) > radius * 2 {
 					// messy in this if statement, fix later
-					let quarterRotation: simd_quatf = simd_quatf(angle: halfRotation.angle / 2, axis: newRotation.axis)
+					let quarterRotation = halfRotation.split(by: 2)
 
 					lastforward = quarterRotation.normalized.act(lastforward)
 					trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
