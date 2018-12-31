@@ -20,6 +20,9 @@ private extension simd_quatf {
 			return simd_quatf(angle: self.angle / factor, axis: self.axis)
 		}
 	}
+	static func zero() -> simd_quatf {
+		return simd_quatf(angle: 0, axis: [1,0,0])
+	}
 }
 private func rotationBetween2Vectors(start: SCNVector3, end: SCNVector3) -> simd_quatf {
 	return simd_quaternion(simd_float3([start.x, start.y, start.z]), simd_float3([end.x, end.y, end.z]))
@@ -27,9 +30,8 @@ private func rotationBetween2Vectors(start: SCNVector3, end: SCNVector3) -> simd
 public extension SCNGeometry {
 	//	public static func getCircularPoints(radius: Float, orientation: )
 	private static func getCircularPoints(
-		radius: Float,
-		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1,0,0])),
-		smoothness: Int
+		radius: Float, smoothness: Int,
+		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1,0,0]))
 		) -> [SCNVector3] {
 		var angle: Float = 0
 		var verts = [SCNVector3]()
@@ -97,7 +99,10 @@ public extension SCNGeometry {
 		for (index, point) in points.enumerated() {
 			let newRotation: simd_quatf!
 			if index == 0 {
-				newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - point))
+				let startDirection = (points[index + 1] - point).normalized()
+				cPoints = SCNGeometry.getCircularPoints(radius: radius, smoothness: smoothness, orientation: rotationBetween2Vectors(start: lastforward, end: startDirection))
+				lastforward = startDirection.normalized()
+				newRotation = simd_quatf.zero()
 			} else if index < points.count - 1 {
 				trueVs.append(contentsOf: Array(trueVs[(trueVs.count - smoothness * 2)...]))
 				trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
@@ -139,10 +144,12 @@ public extension SCNGeometry {
 					trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
 					trueVs.append(contentsOf: cPoints.map { $0 + point })
 					SCNGeometry.addCylinderVerts(to: &trueInds, startingAt: trueVs.count - smoothness * 4, smoothness: smoothness)
+					cPoints = cPoints.map { halfRotation.normalized.act($0) }
+					lastforward = halfRotation.normalized.act(lastforward)
+
 				}
 			} else {
 				cPoints = cPoints.map { newRotation.act($0) }
-
 				lastforward = newRotation.act(lastforward)
 
 				trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
