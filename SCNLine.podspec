@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.author             = "Max Cobb"
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  s.source       = { :git => "https://github.com/maxxfrazer/SCNLine", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/maxxfrazer/SceneKit-SCNLine", :tag => "#{s.version}" }
   s.swift_version = '4.2'
   s.ios.deployment_target = '12.0'
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
