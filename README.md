@@ -39,10 +39,10 @@ Other parameters that can be passed into SCNGeometry.path:
 | maxTurning    | Maximum number of points to make up the curved look when the line is turning to a new direction.    | 4                  | 16                      |
 
 
-<!-- While in the examples below it shows that this can be used for drawing apps I would not recommend this class for that in its current state, because the current class regathers vertices from the very beginning of the line right to the end, which is very inefficient as most will remain the same. -->
+While in the examples below it shows that this can be used for drawing apps I would not recommend this class for that in its current state, because the current class regathers vertices from the very beginning of the line right to the end, which is very inefficient as most will remain the same.
 
-<!-- Here's some basic examples of what you can do with this Pod: -->
+Here's a basic example of what you can do with this Pod:
 
-![Line Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-drawing-1.gif)
+![Line Drawing Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-drawing-1.gif)
 <!-- ![Line Example 2](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-2.gif) -->
 <!-- ![Line Example 3](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-3.gif) -->
