@@ -43,6 +43,6 @@ Other parameters that can be passed into SCNGeometry.path:
 
 <!-- Here's some basic examples of what you can do with this Pod: -->
 
-<!-- ![Line Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-1.gif) -->
+![Line Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-drawing-1.gif)
 <!-- ![Line Example 2](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-2.gif) -->
 <!-- ![Line Example 3](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-3.gif) -->
