@@ -67,7 +67,7 @@ extension ViewController {
 		// SCNLineNode class later with an addPoint() function or similar
 		drawNode.geometry = SCNGeometry.line(
 			points: hitVertices, radius: 0.01, edges: 12
-		)
+		).0
 		drawNode.geometry?.firstMaterial?.diffuse.contents = matDiffuse ?? UIColor(
 			displayP3Red: CGFloat.random(in: 0...1),
 			green: CGFloat.random(in: 0...1),

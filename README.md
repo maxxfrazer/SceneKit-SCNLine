@@ -14,6 +14,12 @@ For more information on drawing primitive types in OpenGL or otherwise, please r
 Please feel free to use and contribute this library however you like.
 I only ask that you let me know when you're doing so; that way I can see some cool uses of it!
 
+## Import
+
+Add to Podfile: `pod 'SCNLine', git: => 'https://github.com/maxxfrazer/SceneKit-SCNLine.git'`
+
+Add to .swift file: `import SCNLine`
+
 ## Example
 
 It's as easy as this to a line geometry:
@@ -23,7 +29,7 @@ let lineGeometry = SCNGeometry.line(points: [
 	SCNVector3(0,-1,0),
 	SCNVector3(0,-1,-1),
 	SCNVector3(1,-1,-1)
-], radius: 0.1)
+], radius: 0.1).0
 ```
 
 This will draw a line of radius 10cm from below the origin, forwards and then to the right in an ARKit setup.
@@ -44,5 +50,3 @@ While in the examples below it shows that this can be used for drawing apps I wo
 Here's a basic example of what you can do with this Pod:
 
 ![Line Drawing Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-drawing-1.gif)
-<!-- ![Line Example 2](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-2.gif) -->
-<!-- ![Line Example 3](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/line-example-3.gif) -->
