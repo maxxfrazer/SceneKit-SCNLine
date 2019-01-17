@@ -73,6 +73,7 @@ public extension SCNGeometry {
 			return (SCNGeometry(sources: [], elements: []), 0)
 		}
 		var lineLength: CGFloat = 0
+		var lastPartRotation = simd_quatf.zero()
 		for (index, point) in points.enumerated() {
 			let newRotation: simd_quatf!
 			if index == 0 {
@@ -87,6 +88,7 @@ public extension SCNGeometry {
 
 				newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - points[index]).normalized())
 			} else {
+				cPoints = cPoints.map { lastPartRotation.normalized.act($0) }
 				newRotation = simd_quatf(angle: 0, axis: float3([1,0,0]))
 			}
 
@@ -96,14 +98,10 @@ public extension SCNGeometry {
 					let mTurn = max(1, min(newRotation.angle / .pi, 1) * Float(maxTurning))
 
 					if mTurn > 1 {
-						let partRotation = newRotation.split(by: Float(mTurn - 1))
+						let partRotation = newRotation.split(by: Float(mTurn))
 						let halfForward = newRotation.split(by: 2).act(lastforward)
 
 						for i in 0..<Int(mTurn) {
-							if i > 0 {
-								cPoints = cPoints.map { partRotation.normalized.act($0) }
-							}
-							lastforward = partRotation.normalized.act(lastforward)
 							trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
 							let angleProgress = Float(i) / Float(mTurn - 1) - 0.5
 							let tangle = radius * angleProgress
@@ -113,8 +111,10 @@ public extension SCNGeometry {
 							trueVs.append(contentsOf: cPoints.map { $0 + nextLocation })
 							trueUVMap.append(contentsOf: textureXs.map { CGPoint(x: $0, y: lineLength) })
 							SCNGeometry.addCylinderVerts(to: &trueInds, startingAt: trueVs.count - edges * 4, edges: edges)
+							cPoints = cPoints.map { partRotation.normalized.act($0) }
 							lastforward = partRotation.normalized.act(lastforward)
 						}
+						lastPartRotation = partRotation
 						continue
 					}
 				}
@@ -130,7 +130,7 @@ public extension SCNGeometry {
 				SCNGeometry.addCylinderVerts(to: &trueInds, startingAt: trueVs.count - edges * 4, edges: edges)
 				cPoints = cPoints.map { halfRotation.normalized.act($0) }
 				lastforward = halfRotation.normalized.act(lastforward)
-
+				lastPartRotation = halfRotation
 			} else {
 				cPoints = cPoints.map { newRotation.act($0) }
 				lastforward = newRotation.act(lastforward)

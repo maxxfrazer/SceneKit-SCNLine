@@ -48,7 +48,8 @@ extension ViewController {
 
 	private func addPointAndCreateVertices() {
 		guard let lastHit = self.sceneView.hitTest(self.pointTouching, options: [
-			SCNHitTestOption.rootNode: cameraFrameNode, SCNHitTestOption.ignoreHiddenNodes: false]).first else {
+			SCNHitTestOption.rootNode: cameraFrameNode, SCNHitTestOption.ignoreHiddenNodes: false
+		]).first else {
 				return
 		}
 		if lastHit.worldCoordinates.distance(to: lastPoint) > minimumMovement {
@@ -66,8 +67,10 @@ extension ViewController {
 		// Super inefficient for lines with many points, Want to replace with a
 		// SCNLineNode class later with an addPoint() function or similar
 		drawNode.geometry = SCNGeometry.line(
-			points: hitVertices, radius: 0.01, edges: 12
+			points: hitVertices, radius: 0.01, edges: 12, maxTurning: 12
 		).0
+
+		// Feeding it a random color, haven't added a color-picker in this example.
 		drawNode.geometry?.firstMaterial?.diffuse.contents = matDiffuse ?? UIColor(
 			displayP3Red: CGFloat.random(in: 0...1),
 			green: CGFloat.random(in: 0...1),

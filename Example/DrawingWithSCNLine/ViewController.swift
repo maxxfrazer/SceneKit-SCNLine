@@ -37,11 +37,11 @@ class ViewController: UIViewController {
 		// Show statistics such as fps and timing information
 		sceneView.showsStatistics = true
 
-		sceneView.autoenablesDefaultLighting = Int.random(in: 0...1) == 0 ? false : true
+		sceneView.autoenablesDefaultLighting = true
 
 		self.cameraFrameNode.isHidden = true
 		self.sceneView.pointOfView?.addChildNode(self.cameraFrameNode)
-		cameraFrameNode.position.z = -0.3
+		cameraFrameNode.position.z = -0.5
 		cameraFrameNode.eulerAngles.x = -.pi / 2
 	}
 
