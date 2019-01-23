@@ -47,6 +47,8 @@ Other parameters that can be passed into SCNGeometry.path:
 
 While in the examples below it shows that this can be used for drawing apps I would not recommend this class for that in its current state, because the current class regathers vertices from the very beginning of the line right to the end, which is very inefficient as most will remain the same.
 
-Here's a basic example of what you can do with this Pod:
+Here's some basic examples of what you can do with this Pod:
 
 ![Line Drawing Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-drawing-1.gif)
+![Line Drawing Hello 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-hello-lighton.gif)
+![Line Drawing Hello 2](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-hello-lightoff.gif)
