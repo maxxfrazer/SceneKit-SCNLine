@@ -8,7 +8,6 @@
 
 import SceneKit
 
-
 public struct GeometryParts {
 	public var vertices: [SCNVector3]
 	public var normals: [SCNVector3]
@@ -36,7 +35,7 @@ private extension simd_quatf {
 		}
 	}
 	static func zero() -> simd_quatf {
-		return simd_quatf(angle: 0, axis: [1,0,0])
+		return simd_quatf(angle: 0, axis: [1, 0, 0])
 	}
 }
 private func rotationBetween2Vectors(start: SCNVector3, end: SCNVector3) -> simd_quatf {
@@ -46,7 +45,7 @@ public extension SCNGeometry {
 
 	private static func getCircularPoints(
 		radius: Float, edges: Int,
-		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1,0,0]))
+		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1, 0, 0]))
 		) -> [SCNVector3] {
 		var angle: Float = 0
 		var verts = [SCNVector3]()
@@ -70,20 +69,27 @@ public extension SCNGeometry {
 	///   - radius: Radius of the line or tube
 	///   - edges: Number of edges the extended shape should have, recommend at least 3
 	///   - maxTurning: Maximum number of additional points to be added on turns. Varies depending on degree change.
-	/// - Returns: Returns a tuple of the geometry and a CGFloat containing the distance of the entire tube, including added turns.
+	/// - Returns: Returns a tuple of the geometry and a CGFloat containing the
+	///						 distance of the entire tube, including added turns.
 	static func line(
 		points: [SCNVector3], radius: Float, edges: Int = 12,
 		maxTurning: Int = 4
 		) -> (SCNGeometry, CGFloat) {
 
-		let (geomParts, lineLength) = SCNGeometry.getAllLineParts(points: points, radius: radius, edges: edges, maxTurning: maxTurning)
+		let (geomParts, lineLength) = SCNGeometry.getAllLineParts(
+			points: points, radius: radius,
+			edges: edges, maxTurning: maxTurning
+		)
 		if geomParts.vertices.isEmpty {
 			return (SCNGeometry(sources: [], elements: []), lineLength)
 		}
 		return (geomParts.buildGeometry(), lineLength)
 	}
 
-	static func buildGeometry(vertices: [SCNVector3], normals: [SCNVector3], uv: [CGPoint], indices: [UInt32]) -> SCNGeometry {
+	static func buildGeometry(
+		vertices: [SCNVector3], normals: [SCNVector3],
+		uv: [CGPoint], indices: [UInt32]
+	) -> SCNGeometry {
 		let src = SCNGeometrySource(vertices: vertices)
 		let normals = SCNGeometrySource(normals: normals)
 		let textureMap = SCNGeometrySource(textureCoordinates: uv)
@@ -92,6 +98,15 @@ public extension SCNGeometry {
 		return SCNGeometry(sources: [src, normals, textureMap], elements: [inds])
 	}
 
+	/// This function takes in all the geometry parameters to get the vertices, normals etc
+	/// It's currently grossly long, needs cleaning up as a priority.
+	///
+	/// - Parameters:
+	///   - points: points for the line to be created
+	///   - radius: radius of the line
+	///   - edges: edges around each point
+	///   - maxTurning: the maximum number of points to build up a turn
+	/// - Returns: All the bits to create the geometry from and the length of the result
 	static func getAllLineParts(
 		points: [SCNVector3], radius: Float, edges: Int = 12,
 		maxTurning: Int = 4
@@ -114,7 +129,10 @@ public extension SCNGeometry {
 			let newRotation: simd_quatf!
 			if index == 0 {
 				let startDirection = (points[index + 1] - point).normalized()
-				cPoints = SCNGeometry.getCircularPoints(radius: radius, edges: edges, orientation: rotationBetween2Vectors(start: lastforward, end: startDirection))
+				cPoints = SCNGeometry.getCircularPoints(
+					radius: radius, edges: edges, orientation:
+					rotationBetween2Vectors(start: lastforward, end: startDirection)
+				)
 				lastforward = startDirection.normalized()
 				newRotation = simd_quatf.zero()
 			} else if index < points.count - 1 {
@@ -125,7 +143,7 @@ public extension SCNGeometry {
 				newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - points[index]).normalized())
 			} else {
 				//				cPoints = cPoints.map { lastPartRotation.normalized.act($0) }
-				newRotation = simd_quatf(angle: 0, axis: float3([1,0,0]))
+				newRotation = simd_quatf(angle: 0, axis: float3([1, 0, 0]))
 			}
 
 			if index > 0 {
@@ -150,7 +168,6 @@ public extension SCNGeometry {
 							cPoints = cPoints.map { partRotation.normalized.act($0) }
 							lastforward = partRotation.normalized.act(lastforward)
 						}
-						//						lastPartRotation = partRotation
 						continue
 					}
 				}

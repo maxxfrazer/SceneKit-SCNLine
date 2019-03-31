@@ -1,4 +1,3 @@
-
 //
 //  SCNLineNode.swift
 //  SCNLine
@@ -32,7 +31,10 @@ public class SCNLineNode: SCNNode {
 		self.maxTurning = maxTurning
 		super.init()
 		if !points.isEmpty {
-			let (geomParts, len) = SCNGeometry.getAllLineParts(points: points, radius: radius, edges: edges, maxTurning: maxTurning)
+			let (geomParts, len) = SCNGeometry.getAllLineParts(
+				points: points, radius: radius,
+				edges: edges, maxTurning: maxTurning
+			)
 			self.gParts = geomParts
 			self.geometry = geomParts.buildGeometry()
 			self.length = len
@@ -42,7 +44,10 @@ public class SCNLineNode: SCNNode {
 	public func update(points: [SCNVector3]) {
 		self.points = points
 		if !points.isEmpty {
-			let (geomParts, len) = SCNGeometry.getAllLineParts(points: points, radius: radius, edges: edges, maxTurning: maxTurning)
+			let (geomParts, len) = SCNGeometry.getAllLineParts(
+				points: points, radius: radius,
+				edges: edges, maxTurning: maxTurning
+			)
 			self.gParts = geomParts
 			self.geometry = geomParts.buildGeometry()
 			self.length = len
@@ -72,7 +77,10 @@ public class SCNLineNode: SCNNode {
 		return total + npoint
 		}) / Float(self.edges * 2)
 		//		print(avg)
-		var (geomParts, newGeomLen) = SCNGeometry.getAllLineParts(points: [avg, points.last!, point], radius: self.radius, edges: self.edges, maxTurning: self.maxTurning)
+		var (geomParts, newGeomLen) = SCNGeometry.getAllLineParts(
+			points: [avg, points.last!, point], radius: self.radius,
+			edges: self.edges, maxTurning: self.maxTurning
+		)
 		self.gParts?.vertices.removeLast(self.edges * 2)
 		geomParts.vertices.removeFirst(self.edges * 2)
 		geomParts.normals.removeFirst(self.edges * 4)

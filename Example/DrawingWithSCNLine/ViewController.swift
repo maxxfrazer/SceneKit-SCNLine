@@ -19,10 +19,9 @@ class ViewController: UIViewController {
 
 	var pointTouching: CGPoint = .zero
 	var isDrawing: Bool = false
-	
+
 	/// Used for calculating where to draw using hitTesting
 	var cameraFrameNode = SCNNode(geometry: SCNFloor())
-
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

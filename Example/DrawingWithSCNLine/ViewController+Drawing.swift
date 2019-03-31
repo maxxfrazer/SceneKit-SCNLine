@@ -41,7 +41,7 @@ extension ViewController {
 		reset()
 	}
 
-	private func begin(){
+	private func begin() {
 		drawingNode = SCNNode()
 		sceneView.scene.rootNode.addChildNode(drawingNode!)
 	}
@@ -59,7 +59,7 @@ extension ViewController {
 		}
 	}
 
-	private func updateGeometry(){
+	private func updateGeometry() {
 		guard hitVertices.count > 1, let drawNode = drawingNode else {
 			return
 		}
@@ -84,7 +84,6 @@ extension ViewController {
 		hitVertices.removeAll()
 		drawingNode = nil
 	}
-
 
 	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
 		if isDrawing {
