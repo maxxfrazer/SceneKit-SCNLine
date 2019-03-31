@@ -10,6 +10,7 @@
 		007C2DD721C45A2600673994 /* SCNLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 007C2DD521C45A2600673994 /* SCNLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		007C2DDE21C45A3B00673994 /* SCNGeometry+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007C2DDD21C45A3B00673994 /* SCNGeometry+Extensions.swift */; };
 		007C2DE021C45A6A00673994 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007C2DDF21C45A6A00673994 /* SCNVector3+Extensions.swift */; };
+		00A42F4921F94F03004C856A /* SCNLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A42F4821F94F03004C856A /* SCNLineNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		007C2DD621C45A2600673994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		007C2DDD21C45A3B00673994 /* SCNGeometry+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNGeometry+Extensions.swift"; sourceTree = "<group>"; };
 		007C2DDF21C45A6A00673994 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		00A42F4821F94F03004C856A /* SCNLineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNLineNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 				007C2DD521C45A2600673994 /* SCNLine.h */,
 				007C2DD621C45A2600673994 /* Info.plist */,
 				007C2DDD21C45A3B00673994 /* SCNGeometry+Extensions.swift */,
+				00A42F4821F94F03004C856A /* SCNLineNode.swift */,
 				007C2DDF21C45A6A00673994 /* SCNVector3+Extensions.swift */,
 			);
 			path = SCNLine;
@@ -139,6 +142,7 @@
 			files = (
 				007C2DDE21C45A3B00673994 /* SCNGeometry+Extensions.swift in Sources */,
 				007C2DE021C45A6A00673994 /* SCNVector3+Extensions.swift in Sources */,
+				00A42F4921F94F03004C856A /* SCNLineNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

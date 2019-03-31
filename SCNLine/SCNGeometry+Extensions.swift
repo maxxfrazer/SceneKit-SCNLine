@@ -8,6 +8,21 @@
 
 import SceneKit
 
+
+public struct GeometryParts {
+	public var vertices: [SCNVector3]
+	public var normals: [SCNVector3]
+	public var uvs: [CGPoint]
+	public var indices: [UInt32]
+	func buildGeometry() -> SCNGeometry {
+		let src = SCNGeometrySource(vertices: self.vertices)
+		let normals = SCNGeometrySource(normals: self.normals)
+		let textureMap = SCNGeometrySource(textureCoordinates: self.uvs)
+		let inds = SCNGeometryElement(indices: self.indices, primitiveType: .triangles)
+		return SCNGeometry(sources: [src, normals, textureMap], elements: [inds])
+	}
+}
+
 private extension simd_quatf {
 	func act(_ vector: SCNVector3) -> SCNVector3 {
 		let vec = self.act(float3([vector.x, vector.y, vector.z]))
@@ -32,7 +47,7 @@ public extension SCNGeometry {
 	private static func getCircularPoints(
 		radius: Float, edges: Int,
 		orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1,0,0]))
-	) -> [SCNVector3] {
+		) -> [SCNVector3] {
 		var angle: Float = 0
 		var verts = [SCNVector3]()
 		let angleAdd = Float.pi * 2 / Float(edges)
@@ -56,24 +71,45 @@ public extension SCNGeometry {
 	///   - edges: Number of edges the extended shape should have, recommend at least 3
 	///   - maxTurning: Maximum number of additional points to be added on turns. Varies depending on degree change.
 	/// - Returns: Returns a tuple of the geometry and a CGFloat containing the distance of the entire tube, including added turns.
-	public static func line(
+	static func line(
 		points: [SCNVector3], radius: Float, edges: Int = 12,
 		maxTurning: Int = 4
-	) -> (SCNGeometry, CGFloat) {
+		) -> (SCNGeometry, CGFloat) {
+
+		let (geomParts, lineLength) = SCNGeometry.getAllLineParts(points: points, radius: radius, edges: edges, maxTurning: maxTurning)
+		if geomParts.vertices.isEmpty {
+			return (SCNGeometry(sources: [], elements: []), lineLength)
+		}
+		return (geomParts.buildGeometry(), lineLength)
+	}
+
+	static func buildGeometry(vertices: [SCNVector3], normals: [SCNVector3], uv: [CGPoint], indices: [UInt32]) -> SCNGeometry {
+		let src = SCNGeometrySource(vertices: vertices)
+		let normals = SCNGeometrySource(normals: normals)
+		let textureMap = SCNGeometrySource(textureCoordinates: uv)
+		let inds = SCNGeometryElement(indices: indices, primitiveType: .triangles)
+
+		return SCNGeometry(sources: [src, normals, textureMap], elements: [inds])
+	}
+
+	static func getAllLineParts(
+		points: [SCNVector3], radius: Float, edges: Int = 12,
+		maxTurning: Int = 4
+		) -> (GeometryParts, CGFloat) {
 		var trueNormals = [SCNVector3]()
 		var trueUVMap = [CGPoint]()
 		var trueVs = [SCNVector3]()
 		var trueInds = [UInt32]()
+
 		var lastforward = SCNVector3(0, 1, 0)
 		var cPoints = SCNGeometry.getCircularPoints(radius: radius, edges: edges)
 		let textureXs = cPoints.enumerated().map { (val) -> CGFloat in
 			return CGFloat(val.offset) / CGFloat(edges - 1)
 		}
 		guard var lastLocation = points.first else {
-			return (SCNGeometry(sources: [], elements: []), 0)
+			return (GeometryParts(vertices: [], normals: [], uvs: [], indices: []), 0)
 		}
 		var lineLength: CGFloat = 0
-		var lastPartRotation = simd_quatf.zero()
 		for (index, point) in points.enumerated() {
 			let newRotation: simd_quatf!
 			if index == 0 {
@@ -88,7 +124,7 @@ public extension SCNGeometry {
 
 				newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - points[index]).normalized())
 			} else {
-				cPoints = cPoints.map { lastPartRotation.normalized.act($0) }
+				//				cPoints = cPoints.map { lastPartRotation.normalized.act($0) }
 				newRotation = simd_quatf(angle: 0, axis: float3([1,0,0]))
 			}
 
@@ -114,7 +150,7 @@ public extension SCNGeometry {
 							cPoints = cPoints.map { partRotation.normalized.act($0) }
 							lastforward = partRotation.normalized.act(lastforward)
 						}
-						lastPartRotation = partRotation
+						//						lastPartRotation = partRotation
 						continue
 					}
 				}
@@ -130,7 +166,7 @@ public extension SCNGeometry {
 				SCNGeometry.addCylinderVerts(to: &trueInds, startingAt: trueVs.count - edges * 4, edges: edges)
 				cPoints = cPoints.map { halfRotation.normalized.act($0) }
 				lastforward = halfRotation.normalized.act(lastforward)
-				lastPartRotation = halfRotation
+				//				lastPartRotation = halfRotation
 			} else {
 				cPoints = cPoints.map { newRotation.act($0) }
 				lastforward = newRotation.act(lastforward)
@@ -141,19 +177,12 @@ public extension SCNGeometry {
 
 			}
 		}
-
-		let src = SCNGeometrySource(vertices: trueVs)
-		let normals = SCNGeometrySource(normals: trueNormals)
-		// keep this for now
-		let textureMap = SCNGeometrySource(textureCoordinates: trueUVMap)
-		let inds = SCNGeometryElement(indices: trueInds, primitiveType: .triangles)
-
-		return (SCNGeometry(sources: [src, normals, textureMap], elements: [inds]), lineLength)
+		return (GeometryParts(vertices: trueVs, normals: trueNormals, uvs: trueUVMap, indices: trueInds), lineLength)
 	}
 
 	static private func addCylinderVerts(
 		to array: inout [UInt32], startingAt: Int, edges: Int
-	) {
+		) {
 		for i in 0..<edges {
 			let fourI = 2 * i + startingAt
 			let rv = Int(edges * 2)
