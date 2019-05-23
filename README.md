@@ -16,7 +16,7 @@ I only ask that you let me know when you're doing so; that way I can see some co
 
 ## Import
 
-Add to Podfile: `pod 'SCNLine', :git => 'https://github.com/maxxfrazer/SceneKit-SCNLine.git'`
+Add to Podfile: `pod 'SCNLine'
 
 Add to .swift file: `import SCNLine`
 
