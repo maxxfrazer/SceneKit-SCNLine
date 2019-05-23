@@ -2,7 +2,7 @@
 
 Functions and classes for creating thick line geometries in a application using SceneKit.
 
-[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
+[![Swift 5.0](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
 
 ## Introduction
 
@@ -16,7 +16,7 @@ I only ask that you let me know when you're doing so; that way I can see some co
 
 ## Import
 
-Add to Podfile: `pod 'SCNLine', git: => 'https://github.com/maxxfrazer/SceneKit-SCNLine.git'`
+Add to Podfile: `pod 'SCNLine', :git => 'https://github.com/maxxfrazer/SceneKit-SCNLine.git'`
 
 Add to .swift file: `import SCNLine`
 
@@ -31,6 +31,18 @@ let lineGeometry = SCNGeometry.line(points: [
 	SCNVector3(1,-1,-1)
 ], radius: 0.1).0
 ```
+
+Or using the node directly SCNLineNode:
+```
+drawingNode = SCNLineNode(
+	with: [SCNVector3(0,-1,0), SCNVector3(0,-1,-1), SCNVector3(1,-1,-1)],
+	radius: 0.01,
+	edges: 12,
+	maxTurning: 12
+)
+drawingNode.add(point: SCNVector3(1,-2,-2))
+```
+The latter is recommended if you want to update the line at a later time by adding a point to it.
 
 This will draw a line of radius 10cm from below the origin, forwards and then to the right in an ARKit setup.
 The y value is set to -1 just as an example that assumes the origin of your scene graph is about 1m above the ground.

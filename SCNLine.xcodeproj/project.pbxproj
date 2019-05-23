@@ -10,6 +10,7 @@
 		007C2DD721C45A2600673994 /* SCNLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 007C2DD521C45A2600673994 /* SCNLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		007C2DDE21C45A3B00673994 /* SCNGeometry+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007C2DDD21C45A3B00673994 /* SCNGeometry+Extensions.swift */; };
 		007C2DE021C45A6A00673994 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007C2DDF21C45A6A00673994 /* SCNVector3+Extensions.swift */; };
+		00A42F4921F94F03004C856A /* SCNLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A42F4821F94F03004C856A /* SCNLineNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		007C2DD621C45A2600673994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		007C2DDD21C45A3B00673994 /* SCNGeometry+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNGeometry+Extensions.swift"; sourceTree = "<group>"; };
 		007C2DDF21C45A6A00673994 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		00A42F4821F94F03004C856A /* SCNLineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNLineNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 				007C2DD521C45A2600673994 /* SCNLine.h */,
 				007C2DD621C45A2600673994 /* Info.plist */,
 				007C2DDD21C45A3B00673994 /* SCNGeometry+Extensions.swift */,
+				00A42F4821F94F03004C856A /* SCNLineNode.swift */,
 				007C2DDF21C45A6A00673994 /* SCNVector3+Extensions.swift */,
 			);
 			path = SCNLine;
@@ -80,6 +83,7 @@
 				007C2DCE21C45A2600673994 /* Sources */,
 				007C2DCF21C45A2600673994 /* Frameworks */,
 				007C2DD021C45A2600673994 /* Resources */,
+				00614398225159C7005ED3D7 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -101,7 +105,7 @@
 				TargetAttributes = {
 					007C2DD121C45A2600673994 = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -111,6 +115,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 007C2DC821C45A2600673994;
 			productRefGroup = 007C2DD321C45A2600673994 /* Products */;
@@ -132,6 +137,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		00614398225159C7005ED3D7 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		007C2DCE21C45A2600673994 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -139,6 +165,7 @@
 			files = (
 				007C2DDE21C45A3B00673994 /* SCNGeometry+Extensions.swift in Sources */,
 				007C2DE021C45A6A00673994 /* SCNVector3+Extensions.swift in Sources */,
+				00A42F4921F94F03004C856A /* SCNLineNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +316,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -315,7 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxxfrazer.SCNLine;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

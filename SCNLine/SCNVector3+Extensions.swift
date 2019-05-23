@@ -17,7 +17,6 @@ internal extension SCNVector3 {
 		return sqrtf(self.lenSq)
 	}
 
-
 	func angleChange(to: SCNVector3) -> Float {
 		let dot = self.normalized().dot(vector: to.normalized())
 		return acos(dot / sqrt(self.lenSq * to.lenSq))
@@ -91,7 +90,6 @@ internal func + (left: CGPoint, right: CGPoint) -> CGPoint {
 	return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
 
-
 /**
 * Subtracts two SCNVector3 vectors and returns the result as a new SCNVector3.
 */
@@ -128,5 +126,3 @@ internal func / (left: SCNVector3, right: SCNVector3) -> SCNVector3 {
 internal func / (vector: SCNVector3, scalar: Float) -> SCNVector3 {
 	return SCNVector3Make(vector.x / scalar, vector.y / scalar, vector.z / scalar)
 }
-
-

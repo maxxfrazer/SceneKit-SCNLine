@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -83,7 +83,6 @@
 				313C49C0341C27D73595E5A0 /* Pods-DrawingWithSCNLine.debug.xcconfig */,
 				24D3352DCC93E34A83387064 /* Pods-DrawingWithSCNLine.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -129,6 +128,7 @@
 				TargetAttributes = {
 					008A74C221C54F370066FB87 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -170,18 +170,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DrawingWithSCNLine/Pods-DrawingWithSCNLine-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SCNLine/SCNLine.framework",
-				"${BUILT_PRODUCTS_DIR}/iOS-Color-Picker/iOS_Color_Picker.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-DrawingWithSCNLine/Pods-DrawingWithSCNLine-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNLine.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOS_Color_Picker.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-DrawingWithSCNLine/Pods-DrawingWithSCNLine-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -366,9 +359,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxxfrazer.DrawingWithSCNLine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.maxxfrazer.SCNLine.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -385,9 +378,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxxfrazer.DrawingWithSCNLine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.maxxfrazer.SCNLine.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
