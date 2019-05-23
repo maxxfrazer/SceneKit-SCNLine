@@ -42,7 +42,18 @@ extension ViewController {
 	}
 
 	private func begin() {
-		drawingNode = SCNNode()
+		drawingNode = SCNLineNode(with: [], radius: 0.01, edges: 12, maxTurning: 12)
+    // Creating a random colored material.
+    let material = SCNMaterial()
+    material.diffuse.contents = UIColor(
+      displayP3Red: CGFloat.random(in: 0...1),
+      green: CGFloat.random(in: 0...1),
+      blue: CGFloat.random(in: 0...1),
+      alpha: 1
+    )
+    material.isDoubleSided = true
+    drawingNode?.lineMaterials = [material]
+
 		sceneView.scene.rootNode.addChildNode(drawingNode!)
 	}
 
@@ -55,29 +66,15 @@ extension ViewController {
 		if lastHit.worldCoordinates.distance(to: lastPoint) > minimumMovement {
 			hitVertices.append(lastHit.worldCoordinates)
 			lastPoint = lastHit.worldCoordinates
-			updateGeometry()
+      updateGeometry(with: lastPoint)
 		}
 	}
 
-	private func updateGeometry() {
+  private func updateGeometry(with point: SCNVector3) {
 		guard hitVertices.count > 1, let drawNode = drawingNode else {
 			return
 		}
-		let matDiffuse = drawNode.geometry?.materials.first?.diffuse.contents
-		// Super inefficient for lines with many points, Want to replace with a
-		// SCNLineNode class later with an addPoint() function or similar
-		drawNode.geometry = SCNGeometry.line(
-			points: hitVertices, radius: 0.01, edges: 12, maxTurning: 12
-		).0
-
-		// Feeding it a random color, haven't added a color-picker in this example.
-		drawNode.geometry?.firstMaterial?.diffuse.contents = matDiffuse ?? UIColor(
-			displayP3Red: CGFloat.random(in: 0...1),
-			green: CGFloat.random(in: 0...1),
-			blue: CGFloat.random(in: 0...1),
-			alpha: 1
-		)
-		drawNode.geometry?.firstMaterial?.isDoubleSided = true
+		drawNode.add(point: point)
 	}
 
 	private func reset() {

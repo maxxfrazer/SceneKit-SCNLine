@@ -111,6 +111,9 @@ public extension SCNGeometry {
 		points: [SCNVector3], radius: Float, edges: Int = 12,
 		maxTurning: Int = 4
 		) -> (GeometryParts, CGFloat) {
+    if points.count < 2 {
+      return (GeometryParts(vertices: [], normals: [], uvs: [], indices: []), 0)
+    }
 		var trueNormals = [SCNVector3]()
 		var trueUVMap = [CGPoint]()
 		var trueVs = [SCNVector3]()

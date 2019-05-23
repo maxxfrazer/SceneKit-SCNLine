@@ -14,6 +14,7 @@ public class SCNLineNode: SCNNode {
 	private var points: [SCNVector3]
 	private var radius: Float
 	private var edges: Int
+  public var lineMaterials = [SCNMaterial()]
 	private var maxTurning: Int
 	public var gParts: GeometryParts?
 
@@ -50,6 +51,7 @@ public class SCNLineNode: SCNNode {
 			)
 			self.gParts = geomParts
 			self.geometry = geomParts.buildGeometry()
+      self.geometry?.materials = self.lineMaterials
 			self.length = len
 		} else {
 			self.geometry = nil
@@ -69,31 +71,6 @@ public class SCNLineNode: SCNNode {
 		self.update(points: points)
 
 		// TODO: optimise this function to not recalculate all points
-		// close attempt below, rotations mess up though
-		/*
-		let len = self.gParts!.vertices.count - 1
-		let lastPoints = self.gParts?.vertices[(len - self.edges * 4)...(len - self.edges * 2)]
-		let avg = lastPoints!.reduce(SCNVector3Zero, { (total, npoint) -> SCNVector3 in
-		return total + npoint
-		}) / Float(self.edges * 2)
-		//		print(avg)
-		var (geomParts, newGeomLen) = SCNGeometry.getAllLineParts(
-			points: [avg, points.last!, point], radius: self.radius,
-			edges: self.edges, maxTurning: self.maxTurning
-		)
-		self.gParts?.vertices.removeLast(self.edges * 2)
-		geomParts.vertices.removeFirst(self.edges * 2)
-		geomParts.normals.removeFirst(self.edges * 4)
-		geomParts.uvs.removeFirst(self.edges * 4)
-		//		geomParts.indices.removeFirst(self.edges * 3)
-		geomParts.indices = geomParts.indices.map {
-		return $0 + UInt32(self.gParts!.vertices.count)
-		}
-		self.gParts?.vertices.append(contentsOf: geomParts.vertices)
-		self.gParts?.normals.append(contentsOf: geomParts.normals)
-		self.gParts?.uvs.append(contentsOf: geomParts.uvs)
-		self.gParts?.indices.append(contentsOf: geomParts.indices)
-		self.geometry = self.gParts!.buildGeometry()*/
 	}
 	public required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")

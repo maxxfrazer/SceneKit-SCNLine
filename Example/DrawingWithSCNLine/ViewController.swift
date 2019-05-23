@@ -7,12 +7,13 @@
 //
 
 import ARKit
+import SCNLine
 
 class ViewController: UIViewController {
 
 	var sceneView = ARSCNView(frame: .zero)
 
-	var drawingNode: SCNNode?
+	var drawingNode: SCNLineNode?
 
 	var centerVerticesCount: Int32 = 0
 	var hitVertices: [SCNVector3] = []
