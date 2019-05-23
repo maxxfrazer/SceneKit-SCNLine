@@ -2,7 +2,7 @@
 
 Functions and classes for creating thick line geometries in a application using SceneKit.
 
-[![Swift 5.0](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
+[![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/)
 
 ## Introduction
 
