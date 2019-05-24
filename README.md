@@ -16,7 +16,7 @@ I only ask that you let me know when you're doing so; that way I can see some co
 
 ## Import
 
-Add to Podfile: `pod 'SCNLine'
+Add to Podfile: `pod 'SCNLine', '~> 1.0'`
 
 Add to .swift file: `import SCNLine`
 
