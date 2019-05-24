@@ -69,7 +69,6 @@ public class SCNLineNode: SCNNode {
     fatalError("init(coder:) has not been implemented")
   }
 
-
   private func update() {
     if points.count > 1 {
       let (geomParts, len) = SCNGeometry.getAllLineParts(
