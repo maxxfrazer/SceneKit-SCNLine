@@ -24,7 +24,7 @@ public struct GeometryParts {
 
 private extension simd_quatf {
   func act(_ vector: SCNVector3) -> SCNVector3 {
-    let vec = self.act(float3([vector.x, vector.y, vector.z]))
+    let vec = self.act(SIMD3<Float>([vector.x, vector.y, vector.z]))
     return SCNVector3(vec.x, vec.y, vec.z)
   }
   func split(by factor: Float = 2) -> simd_quatf {
@@ -45,7 +45,7 @@ public extension SCNGeometry {
 
   private static func getCircularPoints(
     radius: Float, edges: Int,
-    orientation: simd_quatf = simd_quatf(angle: 0, axis: float3([1, 0, 0]))
+    orientation: simd_quatf = simd_quatf(angle: 0, axis: SIMD3<Float>([1, 0, 0]))
     ) -> [SCNVector3] {
     var angle: Float = 0
     var verts = [SCNVector3]()
@@ -146,7 +146,7 @@ public extension SCNGeometry {
         newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - points[index]).normalized())
       } else {
         //				cPoints = cPoints.map { lastPartRotation.normalized.act($0) }
-        newRotation = simd_quatf(angle: 0, axis: float3([1, 0, 0]))
+        newRotation = simd_quatf(angle: 0, axis: SIMD3<Float>([1, 0, 0]))
       }
 
       if index > 0 {
