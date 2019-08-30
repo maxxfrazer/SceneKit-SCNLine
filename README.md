@@ -2,7 +2,11 @@
 
 Functions and classes for creating thick line geometries in a application using SceneKit.
 
+[![Actions Status](https://github.com/maxxfrazer/SceneKit-SCNLine/workflows/linter/badge.svg)](https://github.com/maxxfrazer/SceneKit-SCNLine/actions)
+[![Actions Status](https://github.com/maxxfrazer/SceneKit-SCNLine/workflows/build/badge.svg)](https://github.com/maxxfrazer/FocusEntity/actions)
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/)
+
+![Line Drawing Hello 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-hello-lighton.gif)
 
 ## Introduction
 
@@ -14,9 +18,20 @@ For more information on drawing primitive types in OpenGL or otherwise, please r
 Please feel free to use and contribute this library however you like.
 I only ask that you let me know when you're doing so; that way I can see some cool uses of it!
 
-## Import
+## Installation
+
+### Swift Package Manager
+
+Add the URL of this repository to your Xcode 11+ Project.
+
+`https://github.com/maxxfrazer/SceneKit-SCNLine.git`
+
+### CocoaPods
 
 Add to Podfile: `pod 'SCNLine', '~> 1.0'`
+
+
+### Import
 
 Add to .swift file: `import SCNLine`
 
@@ -62,5 +77,4 @@ While in the examples below it shows that this can be used for drawing apps I wo
 Here's some basic examples of what you can do with this Pod:
 
 ![Line Drawing Example 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-drawing-1.gif)
-![Line Drawing Hello 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-hello-lighton.gif)
 ![Line Drawing Hello 2](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-hello-lightoff.gif)
