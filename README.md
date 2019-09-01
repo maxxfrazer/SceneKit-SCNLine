@@ -3,7 +3,7 @@
 Functions and classes for creating thick line geometries in a application using SceneKit.
 
 [![Actions Status](https://github.com/maxxfrazer/SceneKit-SCNLine/workflows/linter/badge.svg)](https://github.com/maxxfrazer/SceneKit-SCNLine/actions)
-[![Actions Status](https://github.com/maxxfrazer/SceneKit-SCNLine/workflows/build/badge.svg)](https://github.com/maxxfrazer/FocusEntity/actions)
+[![Actions Status](https://github.com/maxxfrazer/SceneKit-SCNLine/workflows/build/badge.svg)](https://github.com/maxxfrazer/SceneKit-SCNLine/actions)
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/)
 
 ![Line Drawing Hello 1](https://github.com/maxxfrazer/SceneKit-SCNLine/blob/master/media/lines-hello-lighton.gif)
