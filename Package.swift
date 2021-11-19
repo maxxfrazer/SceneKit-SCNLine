@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "SCNLine",
-            targets: ["SCNLine"]),
+            targets: ["SCNLine"])
     ],
     targets: [
         .target(
@@ -17,7 +17,7 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "SCNLineTests",
-            dependencies: ["SCNLine"]),
+            dependencies: ["SCNLine"])
     ],
     swiftLanguageVersions: [.v5]
 )
