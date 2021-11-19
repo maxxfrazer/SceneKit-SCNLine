@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches:
-      - "master"
+      - "main"
     tags:
       - "!*"
   pull_request:
@@ -12,14 +12,12 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: macOS-11
     steps:
     - uses: actions/checkout@v1
     - name: Build Package
       run: |
-        swift package generate-xcodeproj
-        xcodebuild clean build -project $PROJECT -scheme $SCHEME -destination "$DESTINATION" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+        xcodebuild -scheme $SCHEME -destination $DESTINATION | xcpretty
       env:
-        PROJECT: SCNLine.xcodeproj
-        SCHEME: SCNLine-Package
-        DESTINATION: platform=iOS Simulator,name=iPhone Xs
+        SCHEME: SCNLine
+        DESTINATION: generic/platform=iOS

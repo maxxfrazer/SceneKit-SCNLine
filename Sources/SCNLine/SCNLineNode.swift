@@ -11,7 +11,7 @@ import SceneKit
 public class SCNLineNode: SCNNode {
   private var vertices = [SCNVector3]()
   public private(set) var length: CGFloat = 0
-  var points: [SCNVector3] {
+  public private(set) var points: [SCNVector3] {
     didSet {
       self.update()
     }
@@ -63,8 +63,17 @@ public class SCNLineNode: SCNNode {
   /// - Parameter point: point to be added to the line
   public func add(point: SCNVector3) {
     // TODO: optimise this function to not recalculate all points
-    self.points.append(point)
+    self.add(points: [point])
   }
+
+  /// Add a point to the collection for this SCNLineNode
+  ///
+  /// - Parameter points: points to be added to the line
+  public func add(points: [SCNVector3]) {
+    // TODO: optimise this function to not recalculate all points
+    self.points.append(contentsOf: points)
+  }
+
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }

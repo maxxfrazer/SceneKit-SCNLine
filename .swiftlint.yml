@@ -6,3 +6,7 @@ variable_name:
     warning: 0
 large_tuple:
   warning: 6
+function_body_length:
+  warning: 70
+disabled_rules:
+  - todo
