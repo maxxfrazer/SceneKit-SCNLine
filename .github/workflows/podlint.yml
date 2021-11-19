@@ -1,0 +1,10 @@
+on: push
+name: "Pod Lint"
+jobs:
+  podlint:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Pod Lint
+      run: |
+        pod lib lint
