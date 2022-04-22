@@ -8,7 +8,21 @@
 
 import SceneKit
 
+// macOS uses CGFloats for describing SCNvector3.
+// In order to shae the same code, this typealias allows for conversion between Floats and CGFloats when needed
+#if os(macOS)
+typealias UFloat = CGFloat
+#elseif os(iOS)
+typealias UFloat = Float
+#endif
+
 internal extension SCNVector3 {
+
+  // Universal type for macOS and iOS allowing simultaneous compatiblity when doing operations.
+  // (Remember x, y and z are CGFloats on macOS)
+  var fx: Float {Float(x)}
+  var fy: Float {Float(y)}
+  var fz: Float {Float(z)}
 
   /**
    * Returns the length (magnitude) of the vector described by the SCNVector3
@@ -26,7 +40,7 @@ internal extension SCNVector3 {
    * Returns the squared length (magnitude) of the vector described by the SCNVector3
    */
   var lenSq: Float {
-    return x*x + y*y + z*z
+    return fx*fx + fy*fy + fz*fz
   }
 
   /**
@@ -48,14 +62,18 @@ internal extension SCNVector3 {
    * Calculates the dot product between two SCNVector3.
    */
   func dot(vector: SCNVector3) -> Float {
-    return x * vector.x + y * vector.y + z * vector.z
+    return fx * vector.fx + fy * vector.fy + fz * vector.fz
   }
 
   /**
    * Calculates the cross product between two SCNVector3.
    */
   func cross(vector: SCNVector3) -> SCNVector3 {
-    return SCNVector3(y * vector.z - z * vector.y, z * vector.x - x * vector.z, x * vector.y - y * vector.x)
+    return SCNVector3(
+      y * vector.z - z * vector.y,
+      z * vector.x - x * vector.z,
+      x * vector.y - y * vector.x
+    )
   }
 
   func flattened() -> SCNVector3 {
@@ -69,13 +87,13 @@ internal extension SCNVector3 {
   ///
   /// - returns: New SCNVector3 that has the rotation applied
   func rotate(about origin: SCNVector3, by: Float) -> SCNVector3 {
-    let pointRepositionedXY = [self.x - origin.x, self.z - origin.z]
+    let pointRepositionedXY = [self.fx - origin.fx, self.fz - origin.fz]
     let sinAngle = sin(by)
     let cosAngle = cos(by)
     return SCNVector3(
-      x: pointRepositionedXY[0] * cosAngle - pointRepositionedXY[1] * sinAngle + origin.x,
+      x: UFloat(pointRepositionedXY[0] * cosAngle - pointRepositionedXY[1] * sinAngle + origin.fx),
       y: self.y,
-      z: pointRepositionedXY[0] * sinAngle + pointRepositionedXY[1] * cosAngle + origin.z
+      z: UFloat(pointRepositionedXY[0] * sinAngle + pointRepositionedXY[1] * cosAngle + origin.fz)
     )
   }
 }
@@ -102,7 +120,7 @@ internal func - (left: SCNVector3, right: SCNVector3) -> SCNVector3 {
  * returns the result as a new SCNVector3.
  */
 internal func * (vector: SCNVector3, scalar: Float) -> SCNVector3 {
-  return SCNVector3Make(vector.x * scalar, vector.y * scalar, vector.z * scalar)
+  return SCNVector3Make(UFloat(vector.fx * scalar), UFloat(vector.fy * scalar), UFloat(vector.fz * scalar))
 }
 
 /**
@@ -124,5 +142,5 @@ internal func / (left: SCNVector3, right: SCNVector3) -> SCNVector3 {
  * returns the result as a new SCNVector3.
  */
 internal func / (vector: SCNVector3, scalar: Float) -> SCNVector3 {
-  return SCNVector3Make(vector.x / scalar, vector.y / scalar, vector.z / scalar)
+  return SCNVector3Make(UFloat(vector.fx / scalar), UFloat(vector.fy / scalar), UFloat(vector.fz / scalar))
 }

@@ -26,7 +26,12 @@ public class SCNLineNode: SCNNode {
       self.update()
     }
   }
-  public var lineMaterials = [SCNMaterial()]
+  public var lineMaterials = [SCNMaterial()] {
+    didSet {
+      // Only updating the materials, to avoid rebuilding the geometry.
+      self.geometry?.materials = lineMaterials
+    }
+  }
   public var maxTurning: Int {
     didSet {
       self.update()
