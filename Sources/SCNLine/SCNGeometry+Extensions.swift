@@ -24,8 +24,8 @@ public struct GeometryParts {
 
 private extension simd_quatf {
   func act(_ vector: SCNVector3) -> SCNVector3 {
-    let vec = self.act(SIMD3<Float>([vector.x, vector.y, vector.z]))
-    return SCNVector3(vec.x, vec.y, vec.z)
+    let vec = self.act(SIMD3<Float>([vector.fx, vector.fy, vector.fz]))
+    return SCNVector3(UFloat(vec.x), UFloat(vec.y), UFloat(vec.z)) // Use UFloats
   }
   func split(by factor: Float = 2) -> simd_quatf {
     if self.angle == 0 {
@@ -39,7 +39,10 @@ private extension simd_quatf {
   }
 }
 private func rotationBetween2Vectors(start: SCNVector3, end: SCNVector3) -> simd_quatf {
-  return simd_quaternion(simd_float3([start.x, start.y, start.z]), simd_float3([end.x, end.y, end.z]))
+  return simd_quaternion(
+    simd_float3([start.fx, start.fy, start.fz]),
+    simd_float3([end.fx, end.fy, end.fz])
+  ) // Uses Float variables instead of the CGFloats on macOS.
 }
 public extension SCNGeometry {
 

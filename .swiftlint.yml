@@ -8,5 +8,7 @@ large_tuple:
   warning: 6
 function_body_length:
   warning: 70
+line_length:
+  ignores_comments: true
 disabled_rules:
   - todo
