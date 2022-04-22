@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.name         = "SCNLine"
-  s.version      = "1.3"
+  s.version      = ENV['LIB_VERSION'] || "1.3.0"
   s.summary      = "SCNLine lets you draw tubes."
   s.description  = <<-DESC
   					draw a thick line in SceneKit
