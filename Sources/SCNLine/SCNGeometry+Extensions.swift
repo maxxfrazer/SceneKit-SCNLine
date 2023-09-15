@@ -113,8 +113,8 @@ public extension SCNGeometry {
   static func getAllLineParts(
     points: [SCNVector3], radius: Float, edges: Int = 12,
     maxTurning: Int = 4
-    ) -> (GeometryParts, CGFloat) {
-    if points.count < 2 {
+  ) -> (GeometryParts, CGFloat) {
+    guard points.count >= 2, var lastLocation = points.first else {
       return (GeometryParts(vertices: [], normals: [], uvs: [], indices: []), 0)
     }
     var trueNormals = [SCNVector3]()
@@ -122,33 +122,28 @@ public extension SCNGeometry {
     var trueVs = [SCNVector3]()
     var trueInds = [UInt32]()
 
-    var lastforward = SCNVector3(0, 1, 0)
+    var lastForward = SCNVector3(0, 1, 0)
     var cPoints = SCNGeometry.getCircularPoints(radius: radius, edges: edges)
-    let textureXs = cPoints.enumerated().map { (val) -> CGFloat in
-      return CGFloat(val.offset) / CGFloat(edges - 1)
-    }
-    guard var lastLocation = points.first else {
-      return (GeometryParts(vertices: [], normals: [], uvs: [], indices: []), 0)
-    }
+    let textureXs = cPoints.enumerated().map { CGFloat($0.offset) / CGFloat(edges - 1) }
+
     var lineLength: CGFloat = 0
     for (index, point) in points.enumerated() {
-      let newRotation: simd_quatf!
+      let newRotation: simd_quatf
+
       if index == 0 {
         let startDirection = (points[index + 1] - point).normalized()
-        cPoints = SCNGeometry.getCircularPoints(
-          radius: radius, edges: edges, orientation:
-          rotationBetween2Vectors(start: lastforward, end: startDirection)
-        )
-        lastforward = startDirection.normalized()
+        let initialRotation = rotationBetween2Vectors(start: lastForward, end: startDirection)
+        cPoints = SCNGeometry.getCircularPoints(radius: radius, edges: edges, orientation: initialRotation)
+        lastForward = startDirection.normalized()
         newRotation = simd_quatf.zero()
       } else if index < points.count - 1 {
-        trueVs.append(contentsOf: Array(trueVs[(trueVs.count - edges * 2)...]))
-        trueUVMap.append(contentsOf: Array(trueUVMap[(trueUVMap.count - edges * 2)...]))
+        trueVs.append(contentsOf: Array(trueVs.suffix(edges * 2)))
+        trueUVMap.append(contentsOf: Array(trueUVMap.suffix(edges * 2)))
         trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
 
-        newRotation = rotationBetween2Vectors(start: lastforward, end: (points[index + 1] - points[index]).normalized())
+        let direction = (points[index + 1] - points[index]).normalized()
+        newRotation = rotationBetween2Vectors(start: lastForward, end: direction)
       } else {
-        //				cPoints = cPoints.map { lastPartRotation.normalized.act($0) }
         newRotation = simd_quatf(angle: 0, axis: SIMD3<Float>([1, 0, 0]))
       }
 
@@ -159,7 +154,7 @@ public extension SCNGeometry {
 
           if mTurn > 1 {
             let partRotation = newRotation.split(by: Float(mTurn))
-            let halfForward = newRotation.split(by: 2).act(lastforward)
+            let halfForward = newRotation.split(by: 2).act(lastForward)
 
             for i in 0..<Int(mTurn) {
               trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
@@ -172,14 +167,14 @@ public extension SCNGeometry {
               trueUVMap.append(contentsOf: textureXs.map { CGPoint(x: $0, y: lineLength) })
               SCNGeometry.addCylinderVerts(to: &trueInds, startingAt: trueVs.count - edges * 4, edges: edges)
               cPoints = cPoints.map { partRotation.normalized.act($0) }
-              lastforward = partRotation.normalized.act(lastforward)
+              lastForward = partRotation.normalized.act(lastForward)
             }
             continue
           }
         }
         // fallback and just apply the half rotation for the turn
         cPoints = cPoints.map { halfRotation.normalized.act($0) }
-        lastforward = halfRotation.normalized.act(lastforward)
+        lastForward = halfRotation.normalized.act(lastForward)
 
         trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
         trueVs.append(contentsOf: cPoints.map { $0 + point })
@@ -188,11 +183,10 @@ public extension SCNGeometry {
         trueUVMap.append(contentsOf: textureXs.map { CGPoint(x: $0, y: lineLength) })
         SCNGeometry.addCylinderVerts(to: &trueInds, startingAt: trueVs.count - edges * 4, edges: edges)
         cPoints = cPoints.map { halfRotation.normalized.act($0) }
-        lastforward = halfRotation.normalized.act(lastforward)
-        //				lastPartRotation = halfRotation
+        lastForward = halfRotation.normalized.act(lastForward)
       } else {
         cPoints = cPoints.map { newRotation.act($0) }
-        lastforward = newRotation.act(lastforward)
+        lastForward = newRotation.act(lastForward)
 
         trueNormals.append(contentsOf: cPoints.map { $0.normalized() })
         trueUVMap.append(contentsOf: textureXs.map { CGPoint(x: $0, y: lineLength) })
