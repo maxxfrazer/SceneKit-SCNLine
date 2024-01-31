@@ -14,6 +14,8 @@ import SceneKit
 typealias UFloat = CGFloat
 #elseif os(iOS)
 typealias UFloat = Float
+#elseif os(watchOS)
+typealias UFloat = Float
 #endif
 
 internal extension SCNVector3 {
