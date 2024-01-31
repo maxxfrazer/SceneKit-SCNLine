@@ -12,7 +12,7 @@ import SceneKit
 // In order to shae the same code, this typealias allows for conversion between Floats and CGFloats when needed
 #if os(macOS)
 typealias UFloat = CGFloat
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
 typealias UFloat = Float
 #elseif os(watchOS)
 typealias UFloat = Float
